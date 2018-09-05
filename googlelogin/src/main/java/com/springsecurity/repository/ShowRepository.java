@@ -11,6 +11,7 @@ import com.springsecurity.bean.Show;
 
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Long> {
-	@Query("select s from show s where s.movie.movieId:=movieId and s.theatre.theatreId:=theatreId")
-	public List<Show> findAllShowsOfMovieInTheatre(@Param("movieId") Long movieId,@Param("theatreId") Long theatreId);
+	
+	@Query("select s from Show s where s.movie.movieId=:movieId and s.theatre.theatreId=:theatreId")
+	public Optional<List<Show>> findAllShowsOfMovieInTheatre(@Param("movieId") Long movieId,@Param("theatreId") Long theatreId);
 }

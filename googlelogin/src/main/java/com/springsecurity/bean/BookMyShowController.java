@@ -137,10 +137,10 @@ public class BookMyShowController {
 				if(allTheatresOfMovie.isEmpty())
 					throw new ResourceNotFoundException("No theatres found with  cityId as "+cityId+" with movieId as "+movieId);
 				
-				List<Show> showsOfMovie=showRepository.findAllShowsOfMovieInTheatre(movieId,theatreId);
-				/*if(!showsOfMovie.isPresent())
-					throw new ResourceNotFoundException("No shows found with  of movie with movie id as  as "+movieId+" in theatre with theatre id  as "+theatreId);*/
+				Optional<List<Show>> showsOfMovie=showRepository.findAllShowsOfMovieInTheatre(movieId,theatreId);
+				if(!showsOfMovie.isPresent())
+					throw new ResourceNotFoundException("No shows found with  of movie with movie id as  as "+movieId+" in theatre with theatre id  as "+theatreId);
 			
-				return new ResponseEntity<List<Show>>(showsOfMovie,HttpStatus.OK);
+				return new ResponseEntity<List<Show>>(showsOfMovie.get(),HttpStatus.OK);
 	}
 }

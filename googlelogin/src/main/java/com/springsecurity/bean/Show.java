@@ -1,9 +1,7 @@
 package com.springsecurity.bean;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SHOWS")
@@ -35,11 +33,11 @@ public class Show implements Serializable {
 	
 	@Column(name = "SHOW_TIME")
 	private LocalTime showTime;
-
+	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "THEATRE_ID")
 	private Theatre theatre;
-
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "MOVIE_ID")
 	private Movie movie;
