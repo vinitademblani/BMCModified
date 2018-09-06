@@ -29,11 +29,11 @@ import com.springsecurity.repository.TheatreRepository;
 
 @SpringBootApplication
 @ComponentScan("com.springsecurity.*")
-@EnableJpaRepositories("com.springsecurity.repository")
-@EntityScan("com.springsecurity.*")
-public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRunner {
+//@EnableJpaRepositories("com.springsecurity.*")
+//@EntityScan("com.springsecurity.*")
+public class SpringSecurityUsingGoogleLoginApplication {
 
-	@Autowired
+	/*@Autowired
 	private CityRepository cityRepository;
 	
 	@Autowired
@@ -45,12 +45,12 @@ public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRun
 	@Autowired
 	private ShowRepository showRepository;
 	//public static  Set<Movie> moviesInCity1=null;
-	
+*/	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityUsingGoogleLoginApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 
 	public void run(String... args) throws Exception {
@@ -165,13 +165,12 @@ public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRun
 		theatreList.stream().forEach(System.out::println);
 		
 		List<Show> showList=showRepository.findAll();
-		showList.stream().forEach(System.out::println);
+		showList.stream().forEach(System.out::println);*/
 		
 	
 		
 		}
 		
-	}
 	
 	
 
