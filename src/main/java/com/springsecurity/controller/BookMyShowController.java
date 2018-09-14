@@ -36,12 +36,12 @@ public class BookMyShowController {
 	@Autowired
 	ShowService showService;
 	
-	@GetMapping("/user")
+	/*@GetMapping("/user")
 	public Principal getPrincipal(Principal principal)
 	{
 		System.out.println(principal.getName());
 		return principal;
-	}
+	}*/
 	//find all the cities.This method can be used to dynamically populate the date in the dropdown of cities
 	@GetMapping("/cities")
 	public ResponseEntity<List<City>> getAllCities()
