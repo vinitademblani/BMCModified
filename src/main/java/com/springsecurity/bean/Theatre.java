@@ -1,8 +1,6 @@
 package com.springsecurity.bean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,10 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="THEATRES")
@@ -31,17 +33,23 @@ public class Theatre implements Serializable {
 	
 	@Column(name="THEATRE_NAME")
 	private String theatreName;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="CITY_ID")
+	private City  city;
 	
-	/*@ManyToOne
-	@JoinColumn(name="CITY_THEATRE")
-	private City city;
-	*/
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+	@JsonIgnore
 	@ManyToMany(mappedBy="theatres",cascade=CascadeType.MERGE)
 	private Set<Movie> movies;
 	
-	/*@OneToMany(mappedBy="theatre")
-	private Set<Show> shows;
-	*/
+	
 	public Theatre( String theatreName) {
 		super();
 		this.theatreName = theatreName;

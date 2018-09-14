@@ -1,9 +1,7 @@
 package com.springsecurity.bean;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "SHOWS")
@@ -35,29 +33,57 @@ public class Show implements Serializable {
 	
 	@Column(name = "SHOW_TIME")
 	private LocalTime showTime;
-
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "THEATRE_ID")
 	private Theatre theatre;
-
+	
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "MOVIE_ID")
 	private Movie movie;
+
+	@Column(name="MOVIE_NAME")
+	private String movieName;
+	
+	@Column(name="MOVIE_IMAGE")
+	private String imageName;
+	
+	public String getMovieName() {
+		return movieName;
+	}
+
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
 
 	public Show() {
 		super();
 	}
 
-	public Show(int noOfSeats, LocalTime showTime, Theatre theatre, Movie movie) {
+
+
+	public Long getShowId() {
+		return showId;
+	}
+
+	public Show(int noOfSeats, LocalTime showTime, Theatre theatre, Movie movie, String movieName, String imageName) {
 		super();
 		this.noOfSeats = noOfSeats;
 		this.showTime = showTime;
 		this.theatre = theatre;
 		this.movie = movie;
-	}
-
-	public Long getShowId() {
-		return showId;
+		this.movieName = movie.getMovieName();
+		this.imageName = movie.getImageName();
+		
 	}
 
 	public void setShowId(Long showId) {
@@ -91,8 +117,7 @@ public class Show implements Serializable {
 	@Override
 	public String toString() {
 		return "Show [showId=" + showId + ", noOfSeats=" + noOfSeats + ", showTime=" + showTime + ", theatre=" + theatre
-				+ ", movie=" + movie.getMovieName() + "]";
+				+ ", movieName=" + movieName + ", imageName=" + imageName + "]";
 	}
-
 	
 }

@@ -39,7 +39,7 @@ public class BookMyShowControllerTest {
 	private CityService service;
 	
 	@Test
-	public void testCreateTicket() throws Exception {
+	public void testgetAllCities() throws Exception {
 		
 		City c1=new City();
 		c1.setCityId(1L);

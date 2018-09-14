@@ -1,4 +1,4 @@
-package com.springsecurity.dao;
+/*package com.springsecurity.dao;
 
 import java.util.Optional;
 
@@ -16,3 +16,4 @@ public interface CityDao extends JpaRepository<City, Long> {
 	@Query("Select c from City c where c.cityName=:cityName")
 	public Optional<City> findByCityName(@Param("cityName")String cityName);
 }
+*/

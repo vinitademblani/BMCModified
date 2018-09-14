@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(MovieNotFoundException.class)
-	public final ResponseEntity<ErrorDetails> handleMovieNotFoundException(MovieNotFoundException ex,WebRequest request)
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public final ResponseEntity<ErrorDetails> handleMovieNotFoundException(ResourceNotFoundException ex,WebRequest request)
 	{
 		ErrorDetails errorDetails=new ErrorDetails(new Date(),ex.getMessage(),request.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);

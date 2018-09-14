@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +18,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "MOVIES")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="movieId")
 public class Movie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
@@ -34,29 +38,52 @@ public class Movie {
 
 	@Column(name = "MOVIE_DURATION")
 	private double duration;
-
-	@ManyToOne(cascade = CascadeType.ALL)
+	
+	
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID")
 	private City city;
-
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "MOVIE_THEATRE", joinColumns = { @JoinColumn(name = "MOVIE_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "THEATRE_ID") })
 	private Set<Theatre> theatres;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "movie", cascade = CascadeType.MERGE)
 	private Set<Show> shows;
 
+	private String imageName;
 	public Movie() {
 		super();
 	}
 
-	public Movie(@Size(max = 200) String movieName, double duration, City city, Set<Theatre> theatres) {
+	public Movie(@Size(max = 200) String movieName, double duration, City city, Set<Theatre> theatres,
+			String imageName) {
 		super();
 		this.movieName = movieName;
 		this.duration = duration;
 		this.city = city;
 		this.theatres = theatres;
+		this.imageName = imageName;
+	}
+
+
+
+	public Set<Show> getShows() {
+		return shows;
+	}
+
+	public void setShows(Set<Show> shows) {
+		this.shows = shows;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 	public Long getMovieId() {
@@ -106,17 +133,5 @@ public class Movie {
 	}
 
 
-
-	/*
-	 * @Override public String toString() { return "Movie [movieId=" + movieId +
-	 * ", movieName=" + movieName + ", duration=" + duration + ", city=" + city
-	 * + ", theatres=" + theatres.size() + "]"; }
-	 */
-
-	/*
-	 * public Theatre getTheatre() { return theatre; }
-	 * 
-	 * public void setTheatre(Theatre theatre) { this.theatre = theatre; }
-	 */
 
 }

@@ -3,10 +3,8 @@ package com.springsecurity.bean;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,8 +14,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "CITIES")
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="cityId")
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -33,8 +36,8 @@ public class City implements Serializable {
 	private String cityName;
 
 
-
 	// doubtful even if this is needed or not
+	@JsonIgnore
 	@OneToMany(mappedBy = "city")
 	private Set<Movie> movies;
 
@@ -61,6 +64,8 @@ public class City implements Serializable {
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
 	}
+
+	
 
 	@Override
 	public String toString() {

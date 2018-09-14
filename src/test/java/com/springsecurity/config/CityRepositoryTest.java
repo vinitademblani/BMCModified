@@ -1,4 +1,4 @@
-package com.springsecurity.config;
+/*package com.springsecurity.config;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,3 +34,4 @@ public class CityRepositoryTest {
 		assertThat(c1.getCityName()).isEqualTo(actual.get().getCityName());
 	}
 }
+*/

@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -15,7 +14,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.springsecurity.bean.City;
@@ -29,11 +27,11 @@ import com.springsecurity.repository.TheatreRepository;
 
 @SpringBootApplication
 @ComponentScan("com.springsecurity.*")
-//@EnableJpaRepositories("com.springsecurity.*")
-//@EntityScan("com.springsecurity.*")
-public class SpringSecurityUsingGoogleLoginApplication {
+@EnableJpaRepositories("com.springsecurity.repository")
+@EntityScan("com.springsecurity.*")
+public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRunner{
 
-	/*@Autowired
+	@Autowired
 	private CityRepository cityRepository;
 	
 	@Autowired
@@ -44,13 +42,13 @@ public class SpringSecurityUsingGoogleLoginApplication {
 	
 	@Autowired
 	private ShowRepository showRepository;
-	//public static  Set<Movie> moviesInCity1=null;
-*/	
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityUsingGoogleLoginApplication.class, args);
 	}
 
-	/*@Override
+	@Override
 	@Transactional
 
 	public void run(String... args) throws Exception {
@@ -82,17 +80,17 @@ public class SpringSecurityUsingGoogleLoginApplication {
 		//Movies
 		Set<Movie> moviesInCity1=new HashSet<>();
 		
-		Movie m1=new Movie("Soorma",2.8,c1,mumbaiTheatres);
-		Movie m2=new Movie("Chak De", 2.4, c1,mumbaiTheatres);
-		Movie m3=new Movie("Dear Zindagi", 2.7, c1,mumbaiTheatres);
+		Movie m1=new Movie("Soorma",2.8,c1,mumbaiTheatres,"soormaImg");
+		Movie m2=new Movie("Chak De", 2.4, c1,mumbaiTheatres,"chakDeImg");
+		Movie m3=new Movie("Dear Zindagi", 2.7, c1,mumbaiTheatres,"dearZindagiImg");
 		moviesInCity1.add(m1);
 		moviesInCity1.add(m2);
 		moviesInCity1.add(m3);
 		
 		Set<Movie> moviesInCity2=new HashSet<>();
-		Movie m4=new Movie("Darr", 2.5, c2,puneTheatres);
-		Movie m5=new Movie("YJHD", 2.4, c2,puneTheatres);
-		Movie m6=new Movie("Bang Bang", 2.7, c2,puneTheatres);
+		Movie m4=new Movie("Darr", 2.5, c2,puneTheatres,"darrImg");
+		Movie m5=new Movie("YJHD", 2.4, c2,puneTheatres,"yjhdImg");
+		Movie m6=new Movie("Bang Bang", 2.7, c2,puneTheatres,"bangBangImg");
 		
 		moviesInCity2.add(m4);
 		moviesInCity2.add(m5);
@@ -102,15 +100,15 @@ public class SpringSecurityUsingGoogleLoginApplication {
 		c2.setMovies(moviesInCity2);
 
 		System.out.println("===============shows details=======================");
-		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1);
-		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1);
-		Show s3=new Show(90,LocalTime.of(3, 10) , t1, m2);
-		Show s4=new Show(50,LocalTime.of(10, 10) , t1, m3);
-		Show s5=new Show(100,LocalTime.of(3, 50) , t2, m1);
-		Show s6=new Show(10,LocalTime.of(23, 10) , t2, m3);
-		Show s7=new Show(80,LocalTime.of(9, 10) , t3, m3);
-		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m3);
-
+		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1,m1.getMovieName(),m1.getImageName());
+		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1,m1.getMovieName(),m1.getImageName());
+		Show s3=new Show(90,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName());
+		Show s4=new Show(50,LocalTime.of(10, 10) , t1, m3,m3.getMovieName(),m3.getImageName());
+		Show s5=new Show(100,LocalTime.of(3, 50) , t2, m1,m1.getMovieName(),m1.getImageName());
+		Show s6=new Show(10,LocalTime.of(23, 10) , t2, m3,m3.getMovieName(),m3.getImageName());
+		Show s7=new Show(80,LocalTime.of(9, 10) , t3, m3,m3.getMovieName(),m3.getImageName());
+		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m2,m2.getMovieName(),m2.getImageName());
+		
 
 		System.out.println("Creating theatre Details");
 		
@@ -125,6 +123,14 @@ public class SpringSecurityUsingGoogleLoginApplication {
 		t5.setMovies(moviesInCity2);
 		t6.setMovies(moviesInCity2);
 		
+		//newly added relationship
+		t1.setCity(c1);
+		t2.setCity(c1);
+		t3.setCity(c1);
+		
+		t4.setCity(c2);
+		t5.setCity(c2);
+		t6.setCity(c2);
 		
 		Set<Show> showSetInHumaTheatreForSoormaMovie=new HashSet<>();
 		showSetInHumaTheatreForSoormaMovie.add(s1);
@@ -165,12 +171,12 @@ public class SpringSecurityUsingGoogleLoginApplication {
 		theatreList.stream().forEach(System.out::println);
 		
 		List<Show> showList=showRepository.findAll();
-		showList.stream().forEach(System.out::println);*/
+		showList.stream().forEach(System.out::println);
 		
 	
 		
 		}
-		
+}	
 	
 	
 

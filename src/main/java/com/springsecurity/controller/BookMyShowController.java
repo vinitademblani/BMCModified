@@ -7,32 +7,35 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springsecurity.bean.City;
-import com.springsecurity.exception.MovieNotFoundException;
-import com.springsecurity.repository.CityRepository;
-import com.springsecurity.repository.Movierepository;
+import com.springsecurity.bean.Movie;
+import com.springsecurity.bean.Show;
+import com.springsecurity.bean.Theatre;
+import com.springsecurity.exception.ResourceNotFoundException;
 import com.springsecurity.service.CityService;
+import com.springsecurity.service.MovieService;
+import com.springsecurity.service.ShowService;
 
 
 @RestController
 public class BookMyShowController {
 	
-	/*@Autowired
-	Movierepository movierepository;
 	
 	@Autowired
-	CityRepository cityRepository;
-	*/
+	CityService cityService;
 	
 	@Autowired
-	CityService service;
+	MovieService movieService;
+	
+	@Autowired
+	ShowService showService;
+	
 	@GetMapping("/user")
 	public Principal getPrincipal(Principal principal)
 	{
@@ -43,30 +46,114 @@ public class BookMyShowController {
 	@GetMapping("/cities")
 	public ResponseEntity<List<City>> getAllCities()
 	{
-				List<City> cities=service.getAllCities();
+				List<City> cities=cityService.getAllCities();
 				return new ResponseEntity<List<City>>(cities, HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/cities/cityNames",produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> getAllCityNames()
+	{
+				Optional<List<String>> cityNames=cityService.findAllCityNames();
+				if(cityNames.isPresent())
+				return new ResponseEntity<List<String>>(cityNames.get(), HttpStatus.OK);
+				else
+					return new ResponseEntity<List<String>>(new ArrayList<>(),HttpStatus.NO_CONTENT);
 	}
 	
 	//find all the movies in specific city passing cityid.
 	//This can be used when the user selects specific city from dropdown then  this method will populate all the movies in that city
-	/*@GetMapping("/cities/{cityId}/movies/")
+	@GetMapping("/cities/{cityId}/movies")
 	public ResponseEntity<List<Movie>>  getAllMovies(@PathVariable("cityId") Long cityId)
 	{
-		List<Movie> moviesInCity=movierepository.findAllByCity(cityId)
-				.orElseThrow(()->new MovieNotFoundException("No movies found with city id "+cityId));
 	
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+		
+		List<Movie> moviesInCity=cityService.findAllMoviesByCityId(cityId);
+		if(moviesInCity.isEmpty())
+			throw new ResourceNotFoundException("No movie found in the city with city id as "+cityId);
+		else
 			return new ResponseEntity<List<Movie>>(moviesInCity, HttpStatus.NOT_FOUND);
+		
 	}
 	
 	//getting the specific movie from the specific  city
 	@GetMapping("/cities/{cityId}/movies/{movieId}")
 	public ResponseEntity<Movie>  getMovieInCity(@PathVariable("cityId") Long cityId,@PathVariable("movieId") Long movieId)
 	{
-	Movie movieInCity=movierepository.findByCityIdAndMovieId(cityId, movieId).
-				orElseThrow(()->new MovieNotFoundException("No movies found with city id "+cityId+" movie id is "+movieId));
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+			
+			Optional<Movie> movieInCity=movieService.findMovieByCityIdAndMovieId(movieId, cityId);
+					
+			if(!movieInCity.isPresent())
+				throw new ResourceNotFoundException("No movie found with  cityId as "+cityId+" movieId as "+movieId);
+			else
+			return new ResponseEntity<Movie>(movieInCity.get(), HttpStatus.OK);
+	}
+	@GetMapping("/cities/{cityId}/movies/{movieId}/movieName")
+	public ResponseEntity<String>  getMovieNameByMovieId(@PathVariable("cityId") Long cityId,@PathVariable("movieId") Long movieId)
+	{
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+			
+			Optional<String> movieNameInCity=movieService.findMovieNameByMovieId(movieId,cityId);
+					
+			if(!movieNameInCity.isPresent())
+				throw new ResourceNotFoundException("No movie found with  cityId as "+cityId+" movieId as "+movieId);
+			else
+			return new ResponseEntity<String>(movieNameInCity.get(), HttpStatus.OK);
+	}
 	
-			return new ResponseEntity<Movie>(movieInCity, HttpStatus.NOT_FOUND);
-	}*/
+	@GetMapping("/cities/{cityId}/movies/{movieId}/theatres")
+	public ResponseEntity<List<Theatre>>  getMovieNamByMovieId(@PathVariable("cityId") Long cityId ,@PathVariable("movieId") Long movieId)
+	{
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+			
+			Optional<Movie> movieInCity=movieService.findMovieByCityIdAndMovieId(movieId, cityId);
+					
+			if(!movieInCity.isPresent())
+				throw new ResourceNotFoundException("No movie found with  cityId as "+cityId+" movieId as "+movieId);
+			
+				List<Theatre> allTheatresOfMovie=movieService.findAllTheatresByMovieId(movieId, cityId);
+				if(allTheatresOfMovie.isEmpty())
+					throw new ResourceNotFoundException("No theatres found with  cityId as "+cityId+" with movieId as "+movieId);
+				
+				return new ResponseEntity<List<Theatre>>(allTheatresOfMovie,HttpStatus.OK);
+	}
+	
+	@GetMapping("/cities/{cityId}/movies/{movieId}/theatres/{theatreId}/shows")
+	public ResponseEntity<List<Show>>  getAllShowsOfMovieInTheatre(@PathVariable("cityId") Long cityId ,@PathVariable("movieId") Long movieId,@PathVariable("theatreId") Long theatreId)
+	{
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+			
+			Optional<Movie> movieInCity=movieService.findMovieByCityIdAndMovieId(movieId, cityId);
+					
+			if(!movieInCity.isPresent())
+				throw new ResourceNotFoundException("No movie found with  cityId as "+cityId+" movieId as "+movieId);
+			
+				List<Theatre> allTheatresOfMovie=movieService.findAllTheatresByMovieId(movieId, cityId);
+				if(allTheatresOfMovie.isEmpty())
+					throw new ResourceNotFoundException("No theatres found with  cityId as "+cityId+" with movieId as "+movieId);
+				
+				Optional<List<Show>> showsOfMovie=showService.findAllShowsOfMovieInTheatre(movieId,theatreId);
+				if(!showsOfMovie.isPresent())
+					throw new ResourceNotFoundException("No shows found with  of movie with movie id as  as "+movieId+" in theatre with theatre id  as "+theatreId);
+			
+				return new ResponseEntity<List<Show>>(showsOfMovie.get(),HttpStatus.OK);
+	}
+	@GetMapping("/cities/{cityId}/shows")
+	public ResponseEntity<List<Show>> getShowsByCity(@PathVariable("cityId") Long cityId)
+	{
+		if(!cityService.existsById(cityId))
+			throw new ResourceNotFoundException("No city found with cityId as "+cityId);
+			
+			List<Show> shows=showService.getMovieByCity(cityId);
+			
+			return new ResponseEntity<List<Show>>(shows, HttpStatus.OK);
+	}
 	
 	
 }
