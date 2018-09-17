@@ -26,11 +26,11 @@ import com.springsecurity.repository.ShowRepository;
 import com.springsecurity.repository.TheatreRepository;
 
 @SpringBootApplication
-@ComponentScan("com.springsecurity.*")
-@EnableJpaRepositories("com.springsecurity.repository")
-@EntityScan("com.springsecurity.*")
-public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRunner{
-
+@ComponentScan("com.springsecurity.controller")
+//@EnableJpaRepositories("com.springsecurity.repository")
+//@EntityScan("com.springsecurity.*")
+public class SpringSecurityUsingGoogleLoginApplication{
+/*
 	@Autowired
 	private CityRepository cityRepository;
 	
@@ -41,14 +41,14 @@ public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRun
 	private TheatreRepository theatreRepository;
 	
 	@Autowired
-	private ShowRepository showRepository;
+	private ShowRepository showRepository;*/
 
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSecurityUsingGoogleLoginApplication.class, args);
 	}
 
-	@Override
+	/*@Override
 	@Transactional
 
 	public void run(String... args) throws Exception {
@@ -96,7 +96,7 @@ public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRun
 		moviesInCity2.add(m5);
 		moviesInCity2.add(m6);
 		
-		c1.setMovies(moviesInCity1);
+		
 		c2.setMovies(moviesInCity2);
 
 		System.out.println("===============shows details=======================");
@@ -171,12 +171,12 @@ public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRun
 		theatreList.stream().forEach(System.out::println);
 		
 		List<Show> showList=showRepository.findAll();
-		showList.stream().forEach(System.out::println);
+		showList.stream().forEach(System.out::println);*/
 		
 	
 		
 		}
-}	
+
 	
 	
 

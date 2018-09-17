@@ -33,4 +33,9 @@ public class CityServiceImpl implements CityService {
 	public List<Movie> findAllMoviesByCityId(Long cityId) {
 		return cityRepository.findAllMoviesByCityId(cityId);
 	}
+
+	@Override
+	public Optional<City> findByCityId(Long cityId) {
+		return cityRepository.findById(cityId);
+	}
 }

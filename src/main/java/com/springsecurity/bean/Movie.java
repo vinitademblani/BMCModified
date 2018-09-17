@@ -43,6 +43,7 @@ public class Movie {
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID")
 	private City city;
+	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "MOVIE_THEATRE", joinColumns = { @JoinColumn(name = "MOVIE_ID") }, inverseJoinColumns = {

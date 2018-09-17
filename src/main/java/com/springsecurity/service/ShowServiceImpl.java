@@ -21,7 +21,7 @@ public class ShowServiceImpl implements ShowService {
 	}
 
 	@Override
-	public List<Show> getMovieByCity(Long cityId) {
-		return showRepository.getMovieByCity(cityId);
+	public List<Show> getShowsByCity(Long cityId) {
+		return showRepository.getShowsByCity(cityId);
 	}
 }

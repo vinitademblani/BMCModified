@@ -1,6 +1,7 @@
 package com.springsecurity.bean;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -69,7 +70,7 @@ public class City implements Serializable {
 
 	@Override
 	public String toString() {
-		return "City [cityId=" + cityId + ", cityName=" + cityName + ", movies=" + movies.size() + "]";
+		return "City [cityId=" + cityId + ", cityName=" + cityName + "]";
 	}
 
 	public Set<Movie> getMovies() {

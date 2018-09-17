@@ -1,4 +1,4 @@
-package com.springsecurity.config;
+/*package com.springsecurity.config;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
@@ -22,4 +22,4 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and().csrf().disable();
 		
 	}
-}
+}*/

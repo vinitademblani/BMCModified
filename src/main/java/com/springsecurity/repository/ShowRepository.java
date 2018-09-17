@@ -16,5 +16,5 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
 	public Optional<List<Show>> findAllShowsOfMovieInTheatre(@Param("movieId") Long movieId,@Param("theatreId") Long theatreId);
 	
 	@Query("select s from Show s where s.movie.city.cityId=:cityId")
-	public List<Show> getMovieByCity(@Param("cityId") Long cityId);
+	public List<Show> getShowsByCity(@Param("cityId") Long cityId);
 }

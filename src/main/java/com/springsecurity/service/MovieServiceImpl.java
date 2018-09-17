@@ -17,7 +17,7 @@ public class MovieServiceImpl implements MovieService {
 	Movierepository movieRepository;
 
 	@Override
-	public Optional<Movie> findMovieByCityIdAndMovieId(Long movieId, Long cityId) {
+	public Optional<Movie> findMovieByCityIdAndMovieId(Long cityId, Long movieId) {
 		return movieRepository.findByCityIdAndMovieId(cityId, movieId);
 	}
 
@@ -27,7 +27,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Theatre> findAllTheatresByMovieId(Long movieId, Long cityId) {
-		return movieRepository.findAllTheatresByMovieId(movieId, cityId);
+	public List<Theatre> findAllTheatresByMovieId(Long cityId , Long movieId) {
+		return movieRepository.findAllTheatresByMovieId(cityId , movieId);
 	}
 }

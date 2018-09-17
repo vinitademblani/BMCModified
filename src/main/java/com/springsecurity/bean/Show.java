@@ -15,7 +15,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @Entity
 @Table(name = "SHOWS")
@@ -31,6 +33,7 @@ public class Show implements Serializable {
 	@Column(name = "NO_OF_SEATS")
 	private int noOfSeats;
 	
+	@JsonSerialize(using = MyLocalTimeSerializer.class)
 	@Column(name = "SHOW_TIME")
 	private LocalTime showTime;
 	@JsonIgnore
@@ -68,7 +71,6 @@ public class Show implements Serializable {
 	public Show() {
 		super();
 	}
-
 
 
 	public Long getShowId() {
@@ -116,7 +118,7 @@ public class Show implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Show [showId=" + showId + ", noOfSeats=" + noOfSeats + ", showTime=" + showTime + ", theatre=" + theatre
+		return "Show [showId=" + showId + ", noOfSeats=" + noOfSeats + ", showTime=" + showTime 
 				+ ", movieName=" + movieName + ", imageName=" + imageName + "]";
 	}
 	

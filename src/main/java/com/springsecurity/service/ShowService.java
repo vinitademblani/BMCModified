@@ -8,6 +8,6 @@ import com.springsecurity.bean.Show;
 public interface ShowService {
 
 	Optional<List<Show>> findAllShowsOfMovieInTheatre(Long movieId, Long theatreId);
-	List<Show> getMovieByCity(Long cityId);
+	List<Show> getShowsByCity(Long cityId);
 
 }

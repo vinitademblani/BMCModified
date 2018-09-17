@@ -8,10 +8,10 @@ import com.springsecurity.bean.Theatre;
 
 public interface MovieService {
 
-	Optional<Movie> findMovieByCityIdAndMovieId(Long movieId, Long cityId);
+	Optional<Movie> findMovieByCityIdAndMovieId(Long cityId, Long movieId);
 
 	Optional<String> findMovieNameByMovieId(Long movieId, Long cityId);
 
-	List<Theatre> findAllTheatresByMovieId(Long movieId, Long cityId);
+	List<Theatre> findAllTheatresByMovieId(Long cityId, Long movieId);
 
 }

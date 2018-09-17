@@ -14,4 +14,6 @@ public interface CityService {
 	public boolean existsById(Long cityId);
 
 	public List<Movie> findAllMoviesByCityId(Long cityId);
+	
+	public Optional<City> findByCityId(Long cityId);
 }
