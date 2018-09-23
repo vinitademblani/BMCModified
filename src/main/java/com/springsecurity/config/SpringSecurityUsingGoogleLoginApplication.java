@@ -1,6 +1,11 @@
 package com.springsecurity.config;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +19,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.springsecurity.bean.City;
@@ -26,11 +32,11 @@ import com.springsecurity.repository.ShowRepository;
 import com.springsecurity.repository.TheatreRepository;
 
 @SpringBootApplication
-@ComponentScan("com.springsecurity.controller")
-//@EnableJpaRepositories("com.springsecurity.repository")
-//@EntityScan("com.springsecurity.*")
-public class SpringSecurityUsingGoogleLoginApplication{
-/*
+@ComponentScan("com.springsecurity.*")
+@EnableJpaRepositories("com.springsecurity.repository")
+@EntityScan("com.springsecurity.*")
+public class SpringSecurityUsingGoogleLoginApplication implements CommandLineRunner{
+
 	@Autowired
 	private CityRepository cityRepository;
 	
@@ -41,14 +47,14 @@ public class SpringSecurityUsingGoogleLoginApplication{
 	private TheatreRepository theatreRepository;
 	
 	@Autowired
-	private ShowRepository showRepository;*/
+	private ShowRepository showRepository;
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
 		SpringApplication.run(SpringSecurityUsingGoogleLoginApplication.class, args);
 	}
 
-	/*@Override
+	@Override
 	@Transactional
 
 	public void run(String... args) throws Exception {
@@ -80,17 +86,23 @@ public class SpringSecurityUsingGoogleLoginApplication{
 		//Movies
 		Set<Movie> moviesInCity1=new HashSet<>();
 		
-		Movie m1=new Movie("Soorma",2.8,c1,mumbaiTheatres,"soormaImg");
-		Movie m2=new Movie("Chak De", 2.4, c1,mumbaiTheatres,"chakDeImg");
-		Movie m3=new Movie("Dear Zindagi", 2.7, c1,mumbaiTheatres,"dearZindagiImg");
+		Movie m1=new Movie("Soorma",2.8,c1,mumbaiTheatres,"SoormaImg");
+		m1.setImage(getMovieImagePic(m1.getImageName()));
+		Movie m2=new Movie("Chak De", 2.4, c1,mumbaiTheatres,"ChakDeImg");
+		m2.setImage(getMovieImagePic(m2.getImageName()));
+		Movie m3=new Movie("Dear Zindagi", 2.7, c1,mumbaiTheatres,"DearZindagiImg");
+		m3.setImage(getMovieImagePic(m3.getImageName()));
 		moviesInCity1.add(m1);
 		moviesInCity1.add(m2);
 		moviesInCity1.add(m3);
 		
 		Set<Movie> moviesInCity2=new HashSet<>();
-		Movie m4=new Movie("Darr", 2.5, c2,puneTheatres,"darrImg");
+		Movie m4=new Movie("stree", 2.5, c2,puneTheatres,"streeImg");
+		m4.setImage(getMovieImagePic(m4.getImageName()));
 		Movie m5=new Movie("YJHD", 2.4, c2,puneTheatres,"yjhdImg");
-		Movie m6=new Movie("Bang Bang", 2.7, c2,puneTheatres,"bangBangImg");
+		m5.setImage(getMovieImagePic(m5.getImageName()));
+		Movie m6=new Movie("Bang Bang", 2.7, c2,puneTheatres,"bangbangImg");
+		m6.setImage(getMovieImagePic(m6.getImageName()));
 		
 		moviesInCity2.add(m4);
 		moviesInCity2.add(m5);
@@ -100,14 +112,14 @@ public class SpringSecurityUsingGoogleLoginApplication{
 		c2.setMovies(moviesInCity2);
 
 		System.out.println("===============shows details=======================");
-		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1,m1.getMovieName(),m1.getImageName());
-		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1,m1.getMovieName(),m1.getImageName());
-		Show s3=new Show(90,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName());
-		Show s4=new Show(50,LocalTime.of(10, 10) , t1, m3,m3.getMovieName(),m3.getImageName());
-		Show s5=new Show(100,LocalTime.of(3, 50) , t2, m1,m1.getMovieName(),m1.getImageName());
-		Show s6=new Show(10,LocalTime.of(23, 10) , t2, m3,m3.getMovieName(),m3.getImageName());
-		Show s7=new Show(80,LocalTime.of(9, 10) , t3, m3,m3.getMovieName(),m3.getImageName());
-		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m2,m2.getMovieName(),m2.getImageName());
+		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1,m1.getMovieName(),m1.getImageName(),m1.getImage());
+		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1,m1.getMovieName(),m1.getImageName(),m1.getImage());
+		Show s3=new Show(90,LocalTime.of(3, 10) , t4, m4,m4.getMovieName(),m4.getImageName(),m4.getImage());
+		Show s4=new Show(50,LocalTime.of(10, 10) , t2, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
+		Show s5=new Show(100,LocalTime.of(3, 50) , t5, m5,m5.getMovieName(),m5.getImageName(),m5.getImage());
+		Show s6=new Show(10,LocalTime.of(23, 10) , t3, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
+		Show s7=new Show(80,LocalTime.of(9, 10) , t6, m6,m6.getMovieName(),m6.getImageName(),m6.getImage());
+		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
 		
 
 		System.out.println("Creating theatre Details");
@@ -171,12 +183,29 @@ public class SpringSecurityUsingGoogleLoginApplication{
 		theatreList.stream().forEach(System.out::println);
 		
 		List<Show> showList=showRepository.findAll();
-		showList.stream().forEach(System.out::println);*/
-		
+		showList.stream().forEach(System.out::println);
+
 	
 		
 		}
-
+	
+	public static byte[] getMovieImagePic(String imageName) throws IOException
+	{
+		System.out.println("Image passed "+imageName);
+		File f=new ClassPathResource("images/"+imageName+".jpg").getFile();
+		
+		//Path path=Paths.get("classpath:/images/"+imageName+".jpg");
+		byte[] data=null;
+		try {
+			data=Files.readAllBytes(f.toPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
+}
 	
 	
 

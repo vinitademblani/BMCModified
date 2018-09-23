@@ -2,6 +2,7 @@ package com.springsecurity.bean;
 
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.Arrays;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -55,7 +57,10 @@ public class Show implements Serializable {
 	public String getMovieName() {
 		return movieName;
 	}
-
+	@Lob
+	@Column(name="MOVIE_IMAGE_PIC")
+	public byte[] image;
+	
 	public void setMovieName(String movieName) {
 		this.movieName = movieName;
 	}
@@ -77,19 +82,22 @@ public class Show implements Serializable {
 		return showId;
 	}
 
-	public Show(int noOfSeats, LocalTime showTime, Theatre theatre, Movie movie, String movieName, String imageName) {
+	
+
+	public void setShowId(Long showId) {
+		this.showId = showId;
+	}
+
+	public Show(int noOfSeats, LocalTime showTime, Theatre theatre, Movie movie, String movieName, String imageName,
+			byte[] image) {
 		super();
 		this.noOfSeats = noOfSeats;
 		this.showTime = showTime;
 		this.theatre = theatre;
 		this.movie = movie;
-		this.movieName = movie.getMovieName();
-		this.imageName = movie.getImageName();
-		
-	}
-
-	public void setShowId(Long showId) {
-		this.showId = showId;
+		this.movieName = movieName;
+		this.imageName = imageName;
+		this.image = image;
 	}
 
 	public int getNoOfSeats() {
@@ -118,8 +126,14 @@ public class Show implements Serializable {
 
 	@Override
 	public String toString() {
+		return "Show [showId=" + showId + ", noOfSeats=" + noOfSeats + ", showTime=" + showTime +
+			" movieName=" + movieName + ", imageName=" + imageName +  "]";
+	}
+
+	/*@Override
+	public String toString() {
 		return "Show [showId=" + showId + ", noOfSeats=" + noOfSeats + ", showTime=" + showTime 
 				+ ", movieName=" + movieName + ", imageName=" + imageName + "]";
 	}
-	
+	*/
 }

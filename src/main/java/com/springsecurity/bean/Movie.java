@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -21,10 +22,11 @@ import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.mysql.jdbc.Blob;
 
 @Entity
 @Table(name = "MOVIES")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="movieId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "movieId")
 public class Movie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
@@ -38,41 +40,52 @@ public class Movie {
 
 	@Column(name = "MOVIE_DURATION")
 	private double duration;
-	
-	
+
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID")
 	private City city;
-	
+
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "MOVIE_THEATRE", joinColumns = { @JoinColumn(name = "MOVIE_ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "THEATRE_ID") })
 	private Set<Theatre> theatres;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "movie", cascade = CascadeType.MERGE)
 	private Set<Show> shows;
 
 	private String imageName;
+
+	@Lob
+	private byte[] image;
+
 	public Movie() {
 		super();
 	}
 
-	public Movie(@Size(max = 200) String movieName, double duration, City city, Set<Theatre> theatres,
-			String imageName) {
+	public Set<Show> getShows() {
+		return shows;
+	}
+
+	public Movie(@Size(max = 200) String movieName, double duration, City city, Set<Theatre> theatres, String imageName)
+	// Blob image)
+	{
 		super();
 		this.movieName = movieName;
 		this.duration = duration;
 		this.city = city;
 		this.theatres = theatres;
 		this.imageName = imageName;
+		// this.image = image;
 	}
 
+	public byte[] getImage() {
+		return image;
+	}
 
-
-	public Set<Show> getShows() {
-		return shows;
+	public void setImage(byte[] bs) {
+		this.image = bs;
 	}
 
 	public void setShows(Set<Show> shows) {
@@ -129,10 +142,8 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		return "Movie [movieId=" + movieId + ", movieName=" + movieName + ", duration=" + duration + ", city=" + city+
-				"]";
+		return "Movie [movieId=" + movieId + ", movieName=" + movieName + ", duration=" + duration + ", city=" + city.getCityName()
+				+ "]";
 	}
-
-
 
 }

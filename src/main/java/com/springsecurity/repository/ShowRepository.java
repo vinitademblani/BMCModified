@@ -17,4 +17,10 @@ public interface ShowRepository extends JpaRepository<Show, Long> {
 	
 	@Query("select s from Show s where s.movie.city.cityId=:cityId")
 	public List<Show> getShowsByCity(@Param("cityId") Long cityId);
+
+	@Query("select s.image from Show s where s.movie.city.cityId=:cityId and s.movie.imageName=:movieImage")
+	public byte[] findImageByCityId(@Param("cityId") Long cityId,@Param("movieImage") String movieImage);
+	
+	@Query("select distinct(s.image) from Show s where s.movie.city.cityId=:cityId")
+	public byte[] getAllMovieImageByCityId(@Param("cityId") Long cityId);
 }

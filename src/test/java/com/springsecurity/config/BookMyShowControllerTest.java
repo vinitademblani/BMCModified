@@ -314,10 +314,11 @@ public class BookMyShowControllerTest {
 		m2.setMovieId(2L);
 		Optional<Movie> optionalMovie=Optional.of(m2);
 		List<Theatre> theatres=new ArrayList<>(mumbaiTheatres);
-		Show s1=new Show(90,LocalTime.of(7, 50) , t1, m2,m2.getMovieName(),m2.getImageName());
+		Show s1=new Show(90,LocalTime.of(7, 50) , t1, m2,m2.getMovieName(),m2.getImageName(),m2.getImage());
+		
 		s1.setShowId(1L);
 		
-		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName());
+		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName(),m2.getImage());
 		s2.setShowId(2L);
 		
 		List<Show> showsList=new ArrayList<>();
@@ -383,14 +384,14 @@ public class BookMyShowControllerTest {
 		moviesInCity1.add(m3);
 		
 		c1.setMovies(moviesInCity1);
-		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1,m1.getMovieName(),m1.getImageName());
-		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1,m1.getMovieName(),m1.getImageName());
-		Show s3=new Show(90,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName());
-		Show s4=new Show(50,LocalTime.of(10, 10) , t1, m3,m3.getMovieName(),m3.getImageName());
-		Show s5=new Show(100,LocalTime.of(3, 50) , t2, m1,m1.getMovieName(),m1.getImageName());
-		Show s6=new Show(10,LocalTime.of(23, 10) , t2, m3,m3.getMovieName(),m3.getImageName());
-		Show s7=new Show(80,LocalTime.of(9, 10) , t3, m3,m3.getMovieName(),m3.getImageName());
-		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m2,m2.getMovieName(),m2.getImageName());
+		Show s1=new Show(50,LocalTime.of(2, 30) , t1, m1,m1.getMovieName(),m1.getImageName(),m1.getImage());
+		Show s2=new Show(100,LocalTime.of(3, 10) , t1, m1,m1.getMovieName(),m1.getImageName(),m1.getImage());
+		Show s3=new Show(90,LocalTime.of(3, 10) , t1, m2,m2.getMovieName(),m2.getImageName(),m2.getImage());
+		Show s4=new Show(50,LocalTime.of(10, 10) , t1, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
+		Show s5=new Show(100,LocalTime.of(3, 50) , t2, m1,m1.getMovieName(),m1.getImageName(),m1.getImage());
+		Show s6=new Show(10,LocalTime.of(23, 10) , t2, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
+		Show s7=new Show(80,LocalTime.of(9, 10) , t3, m3,m3.getMovieName(),m3.getImageName(),m3.getImage());
+		Show s8=new Show(60,LocalTime.of(6, 30) , t3, m2,m2.getMovieName(),m2.getImageName(),m2.getImage());
 		List<Show> showsList=new ArrayList<>();
 		showsList.add(s1);
 		showsList.add(s2);

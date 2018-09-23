@@ -24,4 +24,15 @@ public class ShowServiceImpl implements ShowService {
 	public List<Show> getShowsByCity(Long cityId) {
 		return showRepository.getShowsByCity(cityId);
 	}
+
+	@Override
+	public byte[] getImagesByCityId(Long cityId,String movieImage) {
+		return showRepository.findImageByCityId(cityId,movieImage);
+	}
+
+	@Override
+	public byte[] getAllMovieImageByCityId(Long cityId) {
+		return showRepository.getAllMovieImageByCityId(cityId);
+	}
+	
 }
